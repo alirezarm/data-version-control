@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from skimage.io import imread_collection
 from skimage.transform import resize
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 
 def load_images(data_frame, column_name):
@@ -37,8 +37,9 @@ def load_data(data_path):
 def main(repo_path):
     train_csv_path = repo_path / "data/prepared/train.csv"
     train_data, labels = load_data(train_csv_path)
-    rf = RandomForestClassifier()
-    trained_model = rf.fit(train_data, labels)
+    gbt = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, 
+        max_depth=1, random_state=0)
+    trained_model = gbt.fit(train_data, labels)
     dump(trained_model, repo_path / "model/model.joblib")
 
 
